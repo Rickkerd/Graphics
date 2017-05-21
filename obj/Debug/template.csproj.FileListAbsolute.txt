@@ -1,0 +1,2 @@
+C:\Users\Rickkerdt\Documents\Graphics P2\bin\Debug\template.exe.config
+C:\Users\Rickkerdt\Documents\Graphics P2\obj\Debug\template.csprojResolveAssemblyReference.cache
