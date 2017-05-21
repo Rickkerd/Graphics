@@ -13,7 +13,7 @@ namespace template
         public Vector3 direction;
         public float distance;
 
-        Vector3 Screencenter;
+        //Vector3 screencenter;
             
         public Camera(Vector3 position, Vector3 direction, float distance)
         {

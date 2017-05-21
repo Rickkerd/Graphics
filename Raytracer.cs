@@ -14,27 +14,24 @@ namespace template
         public void Render()
         {
             Camera c = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 1);
-            for (int x = 0; x < 512; x++)
-            {
-                
-                for (int y = 0; y < 512; y++)
+            for (float x = 0; x < 512; x++)
+                for (float y = 0; y < 512; y++)
                 {
                     Ray ray = new Ray();
                     ray.origin = c.position;
-                    ray.direction = (new Vector3(-1 + x*(2/512), -1 + y*(2/512), 1)).Normalized();
+                    ray.direction = (new Vector3(-1 + (x * 2 / 512), -1 + (y * 2 / 512), 1)).Normalized();
                     //ray.direction = Vector3.UnitZ;
-                    screen.pixels[x + y * screen.width] = CreateColor(TraceRay(ray));
-                }
-            }            
+                    screen.pixels[(int)x + (int)y * screen.width] = CreateColor(TraceRay(ray));
+                }            
         }
 
         public Raytracer()
         {
             scene = new Scene();
             Sphere sphere1 = new Sphere();
-            sphere1.position = new Vector3(0, 0, 10);
-            sphere1.r = 2;
-            sphere1.color = new Vector3(1, 0, 0);
+            sphere1.position = new Vector3(0, 0, 20);
+            sphere1.r = 4;
+            sphere1.color = new Vector3(1, 1, 0);
             Plane plane1 = new Plane();
             plane1.direction = new Vector3(0, 1, 0);
             plane1.distance = 1;

@@ -17,7 +17,7 @@ namespace template
 	    // tick: renders one frame
 	    public void Tick()
 	    {
-		    screen.Clear( 0 );
+		    //screen.Clear( 0 );
             rayTracer.Render();
 	    }
     }

@@ -1,2 +1,7 @@
 C:\Users\Rickkerdt\Documents\Graphics P2\bin\Debug\template.exe.config
 C:\Users\Rickkerdt\Documents\Graphics P2\obj\Debug\template.csprojResolveAssemblyReference.cache
+C:\Users\Rickkerdt\Documents\Graphics P2\bin\Debug\template.exe
+C:\Users\Rickkerdt\Documents\Graphics P2\bin\Debug\template.pdb
+C:\Users\Rickkerdt\Documents\Graphics P2\bin\Debug\OpenTK.dll
+C:\Users\Rickkerdt\Documents\Graphics P2\obj\Debug\template.exe
+C:\Users\Rickkerdt\Documents\Graphics P2\obj\Debug\template.pdb
