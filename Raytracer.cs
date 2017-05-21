@@ -30,8 +30,8 @@ namespace template
         {
             scene = new Scene();
             Sphere sphere1 = new Sphere();
-            sphere1.position = new Vector3(0, 0, 10);
-            sphere1.r = 4;
+            sphere1.position = new Vector3(-6, -5, 10);
+            sphere1.r = 2;
             sphere1.color = new Vector3(1, 1, 0);
             Sphere sphere2 = new Sphere();
             sphere2.position = new Vector3(1, -1, 6);
@@ -41,9 +41,12 @@ namespace template
             plane1.direction = new Vector3(0, 0, 1);
             plane1.distance = 20;
             plane1.color = new Vector3(0, 0, 1);
+            Light light1 = new Light();
+            light1.position = new Vector3(-6, -5, 5);
             scene.listPrimitive.Add(sphere1);
             scene.listPrimitive.Add(sphere2);
-            scene.listPrimitive.Add(plane1);
+            //scene.listPrimitive.Add(plane1);
+            scene.listLight.Add(light1);
         }
 
         Vector3 TraceRay(Ray ray)
@@ -55,8 +58,25 @@ namespace template
             }
             else
             {
-                return intersect.collider.color;
+                //return intersect.collider.color;
+                return DirectIllumination(intersect, ray) * 0.1f;
             }
+        }
+
+        Vector3 DirectIllumination(Intersection i, Ray ray)
+        {
+            Vector3 q;
+            Light l = new Light();
+            //foreach (Light l in scene.listLight)
+            //{
+                Vector3 L = (l.position - i.intersectionPoint);
+                //if...
+                float dist = (float)Math.Sqrt(L.X * L.X + L.Y + L.Y + L.Z + L.Z);
+                float attenuation = 1 / (dist * dist);
+                L = L.Normalized();
+                q = new Vector3(1f, 1f, 1f) * Vector3.Dot(ray.direction, L) * attenuation;
+           //}
+            return q;
         }
 
         int CreateColor(Vector3 color)
