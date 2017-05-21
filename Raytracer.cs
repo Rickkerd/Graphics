@@ -10,6 +10,7 @@ namespace template
     public class Raytracer
     {
         Scene scene;
+        Camera c;
         public Surface screen;
         public void Render()
         {
@@ -29,15 +30,20 @@ namespace template
         {
             scene = new Scene();
             Sphere sphere1 = new Sphere();
-            sphere1.position = new Vector3(0, 0, 20);
+            sphere1.position = new Vector3(0, 0, 10);
             sphere1.r = 4;
             sphere1.color = new Vector3(1, 1, 0);
+            Sphere sphere2 = new Sphere();
+            sphere2.position = new Vector3(1, -1, 6);
+            sphere2.r = 1;
+            sphere2.color = new Vector3(1, 1, 1);
             Plane plane1 = new Plane();
-            plane1.direction = new Vector3(0, 1, 0);
-            plane1.distance = 1;
+            plane1.direction = new Vector3(0, 0, 1);
+            plane1.distance = 20;
             plane1.color = new Vector3(0, 0, 1);
             scene.listPrimitive.Add(sphere1);
-            //scene.listPrimitive.Add(plane1);
+            scene.listPrimitive.Add(sphere2);
+            scene.listPrimitive.Add(plane1);
         }
 
         Vector3 TraceRay(Ray ray)

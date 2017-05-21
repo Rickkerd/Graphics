@@ -45,8 +45,8 @@ namespace template
         public Intersection IntersectPlane(Ray ray)
         {
             float t = (Vector3.Dot(direction, ray.origin) + distance) / Vector3.Dot(direction, ray.direction);
-            Vector3 intersectionPoint = ray.origin + -t * ray.direction;
-            if (t >= 0)
+            Vector3 intersectionPoint = ray.origin + t * ray.direction;
+            if (t < 0)
             {
                 return null;
             }
