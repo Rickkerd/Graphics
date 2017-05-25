@@ -12,5 +12,6 @@ namespace template
         public Vector3 intersectionPoint;
         public Primitive collider;
         public float distance;
+        public Vector3 MPvec;
     }
 }

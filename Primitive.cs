@@ -17,10 +17,6 @@ namespace template
         public float r;
         public Intersection IntersectSphere(Ray ray)
         {
-            /*if(ray.direction == Vector3.UnitZ)
-            {
-                int i2 = 0;
-            }*/
             Vector3 c = position - ray.origin;
             float t = Vector3.Dot(c, ray.direction);
             Vector3 q = c - t * ray.direction;
@@ -34,6 +30,7 @@ namespace template
             i.intersectionPoint = ray.origin + t * ray.direction;
             i.collider = this;
             i.distance = t;
+            i.MPvec = position;
             return i;
         }
     }

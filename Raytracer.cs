@@ -34,25 +34,33 @@ namespace template
             sphere1.r = 2;
             sphere1.color = new Vector3(1, 1, 0);
             Sphere sphere2 = new Sphere();
-            sphere2.position = new Vector3(-3, 0, 6);
+            sphere2.position = new Vector3(-3, 0, 9);
             sphere2.r = 1;
             sphere2.color = new Vector3(1, 1, 1);
+            Sphere sphere3 = new Sphere();
+            sphere3.position = new Vector3(-1, 3, 20);
+            sphere3.r = 5;
+            sphere3.color = new Vector3(1f, 0.2f, 0.5f);
             Plane plane1 = new Plane();
             plane1.direction = new Vector3(0, 0, 1);
             plane1.distance = 100;
             plane1.color = new Vector3(0, 0, 1);
             Light light1 = new Light();
             light1.position = new Vector3(-3, -2, 5);
+            Light light2 = new Light();
+            light2.position = new Vector3(5, 3, 0);
             scene.listPrimitive.Add(sphere1);
-            //scene.listPrimitive.Add(sphere2);
+            scene.listPrimitive.Add(sphere2);
+            scene.listPrimitive.Add(sphere3);
             //scene.listPrimitive.Add(plane1);
             scene.listLight.Add(light1);
+            scene.listLight.Add(light2);
         }
 
         Vector3 TraceRay(Ray ray)
         {
             Intersection intersect = scene.intersectScene(ray);
-            Sphere p = new Sphere();
+            Sphere kek = new Sphere();
             if (intersect == null)
             {
                 return Vector3.Zero;
@@ -60,8 +68,8 @@ namespace template
             else
             {
                 //return intersect.collider.color;
-                Vector3 N = new Vector3(intersect.intersectionPoint - new Vector3(5, -5, 10)).Normalized();
-                return DirectIllumination(intersect, N) * intersect.collider.color * 7;
+                Vector3 N = new Vector3(intersect.intersectionPoint - intersect.MPvec).Normalized();
+                return DirectIllumination(intersect, N) * intersect.collider.color * 25;
             }
         }
 
@@ -71,12 +79,12 @@ namespace template
             foreach (Light l in scene.listLight)
             {
                 Vector3 L = (l.position - i.intersectionPoint);
-                float dist = (float)Math.Sqrt(L.X * L.X + L.Y + L.Y + L.Z + L.Z);
+                float dist = L.Length;
                 L = L.Normalized();
                 if (!IsVisible(N, L, dist))
                     return Vector3.Zero;
                 float attenuation = 1 / (dist * dist);
-                q = new Vector3(1f, 1f,1f) * Vector3.Dot(N, L) * attenuation;
+                q = new Vector3(1f, 1f,1f) * MathHelper.Clamp(Vector3.Dot(N, L), 0, 1) * attenuation;
            }
            return q;
         }
