@@ -30,46 +30,53 @@ namespace template
         {
             scene = new Scene();
             Sphere sphere1 = new Sphere();
-            sphere1.position = new Vector3(5, -5, 10);
+            sphere1.position = new Vector3(8, -6, 13);
             sphere1.r = 2;
             sphere1.color = new Vector3(1, 1, 0);
+            sphere1.isMirror = true;
             Sphere sphere2 = new Sphere();
-            sphere2.position = new Vector3(-3, 0, 9);
+            sphere2.position = new Vector3(-6, 0, 10);
             sphere2.r = 1;
             sphere2.color = new Vector3(1, 1, 1);
             Sphere sphere3 = new Sphere();
-            sphere3.position = new Vector3(-1, 3, 20);
-            sphere3.r = 5;
+            sphere3.position = new Vector3(-2, -8, 30);
+            sphere3.r = 7;
             sphere3.color = new Vector3(1f, 0.2f, 0.5f);
+            Sphere sphere4 = new Sphere();
+            sphere4.position = new Vector3(0, -0, 10);
+            sphere4.r = 1;
+            sphere4.color = new Vector3(0.5f, 1, 0.1f);
             Plane plane1 = new Plane();
-            plane1.direction = new Vector3(0, 0, 1);
-            plane1.distance = 100;
+            plane1.direction = new Vector3(0, 1, 0);
+            plane1.distance = 1f;
             plane1.color = new Vector3(0, 0, 1);
             Light light1 = new Light();
-            light1.position = new Vector3(-3, -2, 5);
-            Light light2 = new Light();
-            light2.position = new Vector3(5, 3, 0);
+            light1.position = new Vector3(0 , -2, 0);
+            light1.brightness = new Vector3(1f, 1f, 1f);
             scene.listPrimitive.Add(sphere1);
-            scene.listPrimitive.Add(sphere2);
-            scene.listPrimitive.Add(sphere3);
+            //scene.listPrimitive.Add(sphere2);
+            //scene.listPrimitive.Add(sphere3);
+            //scene.listPrimitive.Add(sphere4);
             //scene.listPrimitive.Add(plane1);
             scene.listLight.Add(light1);
-            scene.listLight.Add(light2);
         }
 
         Vector3 TraceRay(Ray ray)
         {
             Intersection intersect = scene.intersectScene(ray);
-            Sphere kek = new Sphere();
             if (intersect == null)
             {
                 return Vector3.Zero;
+            }
+            if (false)
+            {
+                return TraceRay(ray);
             }
             else
             {
                 //return intersect.collider.color;
                 Vector3 N = new Vector3(intersect.intersectionPoint - intersect.MPvec).Normalized();
-                return DirectIllumination(intersect, N) * intersect.collider.color * 25;
+                return DirectIllumination(intersect, N) * intersect.collider.color * 255;
             }
         }
 
@@ -84,7 +91,7 @@ namespace template
                 if (!IsVisible(N, L, dist))
                     return Vector3.Zero;
                 float attenuation = 1 / (dist * dist);
-                q = new Vector3(1f, 1f,1f) * MathHelper.Clamp(Vector3.Dot(N, L), 0, 1) * attenuation;
+                q = MathHelper.Clamp(Vector3.Dot(N, L), 0, 1) * attenuation * l.brightness;
            }
            return q;
         }

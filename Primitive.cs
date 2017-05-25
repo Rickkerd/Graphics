@@ -10,6 +10,7 @@ namespace template
     class Primitive
     {
         public Vector3 color;
+        public bool isMirror;
     }
     class Sphere:Primitive
     {
