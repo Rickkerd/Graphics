@@ -22,7 +22,7 @@ namespace template
                     ray.origin = c.position;
                     ray.direction = (new Vector3(-1 + (x * 2 / 512), -1 + (y * 2 / 512), 1)).Normalized();
                     //ray.direction = Vector3.UnitZ;
-                    screen.pixels[(int)x + (int)y * screen.width] = CreateColor(TraceRay(ray));
+                    screen.pixels[(int)x + (int)y * screen.width] = CreateColor(TraceRay(ray.origin, ray));
                 }            
         }
 
@@ -61,23 +61,35 @@ namespace template
             scene.listLight.Add(light1);
         }
 
-        Vector3 TraceRay(Ray ray)
+        Vector3 TraceRay(Vector3 Origin, Ray ray)
         {
+            int recursion = 0;
             Intersection intersect = scene.intersectScene(ray);
             if (intersect == null)
             {
                 return Vector3.Zero;
             }
-            if (false)
-            {
-                return TraceRay(ray);
-            }
             else
             {
-                //return intersect.collider.color;
                 Vector3 N = new Vector3(intersect.intersectionPoint - intersect.MPvec).Normalized();
-                return DirectIllumination(intersect, N) * intersect.collider.color * 255;
+                if (intersect.isMirror && recursion < 3)
+                {
+                    recursion++;
+                    ray.origin = intersect.intersectionPoint;
+                    return TraceRay(ray.origin, Reflect(ray, N));
+                }
+                else
+                {
+                    //return intersect.collider.color;
+                    return DirectIllumination(intersect, N) * intersect.collider.color * 255;
+                }
             }
+        }
+
+        Ray Reflect(Ray ray, Vector3 N)
+        {
+            ;
+            return ray;
         }
 
         Vector3 DirectIllumination(Intersection i, Vector3 N)

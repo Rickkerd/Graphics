@@ -13,5 +13,6 @@ namespace template
         public Primitive collider;
         public float distance;
         public Vector3 MPvec;
+        public bool isMirror;
     }
 }

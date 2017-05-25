@@ -32,6 +32,7 @@ namespace template
             i.collider = this;
             i.distance = t;
             i.MPvec = position;
+            i.isMirror = isMirror;
             return i;
         }
     }
