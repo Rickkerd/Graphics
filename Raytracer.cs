@@ -54,9 +54,9 @@ namespace template
             light1.position = new Vector3(0 , -2, 0);
             light1.brightness = new Vector3(1f, 1f, 1f);
             scene.listPrimitive.Add(sphere1);
-            //scene.listPrimitive.Add(sphere2);
-            //scene.listPrimitive.Add(sphere3);
-            //scene.listPrimitive.Add(sphere4);
+            scene.listPrimitive.Add(sphere2);
+            scene.listPrimitive.Add(sphere3);
+            scene.listPrimitive.Add(sphere4);
             //scene.listPrimitive.Add(plane1);
             scene.listLight.Add(light1);
         }
@@ -88,8 +88,11 @@ namespace template
 
         Ray Reflect(Ray ray, Vector3 N)
         {
-            ;
-            return ray;
+            double a = Math.Acos(Vector3.Dot(ray.origin, N) / (ray.origin.Length * N.Length));
+            Ray newRay = new Ray();
+            newRay.origin = ray.origin * 1.03f;
+            newRay.direction = new Vector3((float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.X, (float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.Y, (float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.Z).Normalized();
+            return newRay;
         }
 
         Vector3 DirectIllumination(Intersection i, Vector3 N)
