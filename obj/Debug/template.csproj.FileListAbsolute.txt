@@ -12,3 +12,10 @@ C:\Users\Rickkerdt\Documents\Graphics P2v2\bin\Debug\OpenTK.dll
 C:\Users\Rickkerdt\Documents\Graphics P2v2\obj\Debug\template.csprojResolveAssemblyReference.cache
 C:\Users\Rickkerdt\Documents\Graphics P2v2\obj\Debug\template.exe
 C:\Users\Rickkerdt\Documents\Graphics P2v2\obj\Debug\template.pdb
+C:\Users\sjors\OneDrive\Documents\Graphics\bin\Debug\template.exe.config
+C:\Users\sjors\OneDrive\Documents\Graphics\obj\Debug\template.exe
+C:\Users\sjors\OneDrive\Documents\Graphics\obj\Debug\template.pdb
+C:\Users\sjors\OneDrive\Documents\Graphics\bin\Debug\template.exe
+C:\Users\sjors\OneDrive\Documents\Graphics\bin\Debug\template.pdb
+C:\Users\sjors\OneDrive\Documents\Graphics\bin\Debug\OpenTK.dll
+C:\Users\sjors\OneDrive\Documents\Graphics\obj\Debug\template.csprojResolveAssemblyReference.cache

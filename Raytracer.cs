@@ -10,7 +10,6 @@ namespace template
     public class Raytracer
     {
         Scene scene;
-        Camera c;
         public Surface screen;
         public void Render()
         {
@@ -20,7 +19,7 @@ namespace template
                 {
                     Ray ray = new Ray();
                     ray.origin = c.position;
-                    ray.direction = (new Vector3(-1 + (x * 2 / 512), -1 + (y * 2 / 512), 1)).Normalized();
+                    ray.direction = (new Vector3(c.P1.X - c.P0.X + (x * 2 / 512), c.P0.Y  - c.P2.Y + (y * 2 / 512), c.distance)).Normalized();
                     //ray.direction = Vector3.UnitZ;
                     screen.pixels[(int)x + (int)y * screen.width] = CreateColor(TraceRay(ray.origin, ray));
                 }            
