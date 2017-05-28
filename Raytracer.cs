@@ -10,10 +10,12 @@ namespace template
     public class Raytracer
     {
         Scene scene;
+        Application app = new Application();
         public Surface screen;
         public void Render()
         {
-            Camera c = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 1);
+            app.Control();
+            Camera c = new Camera(new Vector3(app.move.X, app.move.Y, app.move.Z), new Vector3(0, 0, 1), 1);
             for (float x = 0; x < 512; x++)
                 for (float y = 0; y < 512; y++)
                 {
@@ -37,27 +39,34 @@ namespace template
             sphere2.position = new Vector3(-6, 0, 10);
             sphere2.r = 1;
             sphere2.color = new Vector3(1, 1, 1);
+            sphere2.isMirror = false;
             Sphere sphere3 = new Sphere();
             sphere3.position = new Vector3(-2, -8, 30);
             sphere3.r = 7;
             sphere3.color = new Vector3(1f, 0.2f, 0.5f);
+            sphere3.isMirror = false;
             Sphere sphere4 = new Sphere();
             sphere4.position = new Vector3(0, -0, 10);
             sphere4.r = 1;
             sphere4.color = new Vector3(0.5f, 1, 0.1f);
+            sphere4.isMirror = false;
             Plane plane1 = new Plane();
-            plane1.direction = new Vector3(0, 1, 0);
-            plane1.distance = 1f;
-            plane1.color = new Vector3(0, 0, 1);
+            plane1.direction = new Vector3(0, -2, 0);
+            plane1.distance = 0.1f;
+            plane1.color = new Vector3(0, 0, 1f);
             Light light1 = new Light();
-            light1.position = new Vector3(0 , -2, 0);
+            light1.position = new Vector3(0 , -2, 5);
             light1.brightness = new Vector3(1f, 1f, 1f);
+            Light light2 = new Light();
+            light2.position = new Vector3(0, -2, 10);
+            light2.brightness = new Vector3(0.5f, 0.5f, 0.5f);
             scene.listPrimitive.Add(sphere1);
             scene.listPrimitive.Add(sphere2);
             scene.listPrimitive.Add(sphere3);
             scene.listPrimitive.Add(sphere4);
-            //scene.listPrimitive.Add(plane1);
+            scene.listPrimitive.Add(plane1);
             scene.listLight.Add(light1);
+            //scene.listLight.Add(light2);
         }
 
         Vector3 TraceRay(Vector3 Origin, Ray ray)
@@ -89,7 +98,7 @@ namespace template
         {
             double a = Math.Acos(Vector3.Dot(ray.origin, N) / (ray.origin.Length * N.Length));
             Ray newRay = new Ray();
-            newRay.origin = ray.origin * 1.03f;
+            newRay.origin = ray.origin * 1.06f;
             newRay.direction = new Vector3((float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.X, (float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.Y, (float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.Z).Normalized();
             return newRay;
         }
