@@ -12,6 +12,7 @@ namespace template
         Scene scene;
         Application app = new Application();
         public Surface screen;
+        public int recursion = 0;
         public void Render()
         {
             app.Control();
@@ -31,12 +32,12 @@ namespace template
         {
             scene = new Scene();
             Sphere sphere1 = new Sphere();
-            sphere1.position = new Vector3(8, -6, 13);
+            sphere1.position = new Vector3(0, -2, 8);
             sphere1.r = 2;
-            sphere1.color = new Vector3(1, 1, 0);
+            sphere1.color = new Vector3(1, 0, 0);
             sphere1.isMirror = true;
             Sphere sphere2 = new Sphere();
-            sphere2.position = new Vector3(-6, 0, 10);
+            sphere2.position = new Vector3(-4, -1, 7);
             sphere2.r = 1;
             sphere2.color = new Vector3(1, 1, 1);
             sphere2.isMirror = false;
@@ -46,17 +47,17 @@ namespace template
             sphere3.color = new Vector3(1f, 0.2f, 0.5f);
             sphere3.isMirror = false;
             Sphere sphere4 = new Sphere();
-            sphere4.position = new Vector3(0, -0, 10);
+            sphere4.position = new Vector3(3, -1, 7);
             sphere4.r = 1;
             sphere4.color = new Vector3(0.5f, 1, 0.1f);
             sphere4.isMirror = false;
             Plane plane1 = new Plane();
-            plane1.direction = new Vector3(0, -2, 0);
+            plane1.direction = new Vector3(0, -1, 0);
             plane1.distance = 0.1f;
-            plane1.color = new Vector3(0, 0, 1f);
+            plane1.color = new Vector3(0, 0, 0.2f);
             Light light1 = new Light();
-            light1.position = new Vector3(0 , -2, 5);
-            light1.brightness = new Vector3(1f, 1f, 1f);
+            light1.position = new Vector3(0 , -2, 1);
+            light1.brightness = new Vector3(0.2f, 0.5f, 1f);
             Light light2 = new Light();
             light2.position = new Vector3(0, -2, 10);
             light2.brightness = new Vector3(0.5f, 0.5f, 0.5f);
@@ -71,7 +72,6 @@ namespace template
 
         Vector3 TraceRay(Vector3 Origin, Ray ray)
         {
-            int recursion = 0;
             Intersection intersect = scene.intersectScene(ray);
             if (intersect == null)
             {
@@ -79,27 +79,33 @@ namespace template
             }
             else
             {
-                Vector3 N = new Vector3(intersect.intersectionPoint - intersect.MPvec).Normalized();
+                Vector3 N = 1 * new Vector3(intersect.intersectionPoint - intersect.MPvec).Normalized();
                 if (intersect.isMirror && recursion < 3)
                 {
                     recursion++;
-                    ray.origin = intersect.intersectionPoint;
-                    return TraceRay(ray.origin, Reflect(ray, N));
+                    //ray.origin = intersect.intersectionPoint;
+                    return TraceRay(intersect.intersectionPoint, Reflect(intersect, N));
                 }
+               /* else if (intersect.isDielectric && recursion < 3)
+                {
+                    recursion++;
+                }*/
                 else
                 {
+                    recursion = 0;
                     //return intersect.collider.color;
                     return DirectIllumination(intersect, N) * intersect.collider.color * 255;
                 }
             }
         }
 
-        Ray Reflect(Ray ray, Vector3 N)
+        Ray Reflect(Intersection i, Vector3 N)
         {
-            double a = Math.Acos(Vector3.Dot(ray.origin, N) / (ray.origin.Length * N.Length));
+            double a = Math.Acos(Vector3.Dot(i.intersectionPoint.Normalized(), N.Normalized()));
+            //double a = Math.Acos(ray.direction.Length / N.Length);
             Ray newRay = new Ray();
-            newRay.origin = ray.origin * 1.06f;
-            newRay.direction = new Vector3((float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.X, (float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.Y, (float)(ray.origin.Length * N.Length * Math.Sin(a)) / N.Z).Normalized();
+            newRay.origin = i.intersectionPoint * 1.01f;
+            newRay.direction = new Vector3((float)(i.intersectionPoint.Normalized().Length * N.Normalized().Length * Math.Cos(a)) / N.Normalized().X, (float)(i.intersectionPoint.Normalized().Length * N.Normalized().Length * Math.Cos(a)) / N.Normalized().Y, (float)(i.intersectionPoint.Normalized().Length * N.Normalized().Length * Math.Cos(a)) / N.Normalized().Z).Normalized();
             return newRay;
         }
 

@@ -20,7 +20,7 @@ namespace template
         {
             Vector3 c = position - ray.origin;
             float t = Vector3.Dot(c, ray.direction);
-            Vector3 q = c - t * ray.direction;
+            Vector3 q = (c - t * ray.direction);
             float p2 = Vector3.Dot(q, q);
             if (p2 > r * r )
             {
