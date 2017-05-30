@@ -11,6 +11,7 @@ namespace template
     {
         public Vector3 color;
         public bool isMirror;
+        public bool isSemiMirror;
     }
     class Sphere:Primitive
     {
@@ -33,6 +34,8 @@ namespace template
             i.distance = t;
             i.MPvec = position;
             i.isMirror = isMirror;
+            i.isSemiMirror = isSemiMirror;
+            i.intersectionNormal = new Vector3(i.intersectionPoint - i.MPvec).Normalized();
             return i;
         }
     }
@@ -53,6 +56,7 @@ namespace template
             i.intersectionPoint = intersectionPoint;
             i.collider = this;
             i.distance = t;
+            i.intersectionNormal = direction;
             return i;
         }
     }
