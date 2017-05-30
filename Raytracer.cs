@@ -13,19 +13,48 @@ namespace template
         Application app = new Application();
         public Surface screen;
         public int recursion = 0;
+        int scale = 20;
+        bool debug;
         public void Render()
         {
             app.Control();
             Camera c = new Camera(new Vector3(app.move.X, app.move.Y, app.move.Z), new Vector3(0, 0, 1), 1);
+            int cx = Convert.ToInt32(c.position.X) * scale + 768;
+            int cy = Convert.ToInt32(c.position.Y) * scale + 256;
             for (float x = 0; x < 512; x++)
                 for (float y = 0; y < 512; y++)
                 {
+                    if (y == 256)
+                        debug = true;
+                    else
+                        debug = false;
                     Ray ray = new Ray();
                     ray.origin = c.position;
                     ray.direction = (new Vector3(c.P1.X - c.P0.X + (x * 2 / 512), c.P0.Y  - c.P2.Y + (y * 2 / 512), c.distance)).Normalized();
                     //ray.direction = Vector3.UnitZ;
                     screen.pixels[(int)x + (int)y * screen.width] = CreateColor(TraceRay(ray.origin, ray));
-                }            
+                }
+            foreach (Primitive p in scene.listPrimitive)
+            {
+                if (p is Sphere)
+                {
+                    double newRadius = 0;
+                    if (p.position.Y != c.position.Y)
+                    {
+                        double k2 = Math.Abs(Math.Pow(p.r, 2) - Math.Pow(Math.Abs(c.position.Y - p.position.Y), 2));
+                        newRadius = Math.Sqrt(k2);
+                    }
+                    if (newRadius == 0)
+                    {
+                        newRadius = p.r;
+                    }
+                    int x = Convert.ToInt32(p.position.X) * scale + 768;
+                    int y = -(Convert.ToInt32(p.position.Z) * scale) + 256;
+                    screen.Circle(newRadius * scale, x, y, CreateColor(p.color));
+                }
+            }
+            screen.pixels[cx + cy * screen.width] = CreateColor(new Vector3(1, 1, 1));
+            screen.Line(cx - 1 * scale, cy - 1 * scale, cx + 1 * scale, cy - 1 * scale, CreateColor(new Vector3(1, 1, 1)));
         }
 
         public Raytracer()
@@ -79,6 +108,16 @@ namespace template
             }
             else
             {
+                // debug test
+                if (debug)
+                {
+                    int x1 = Convert.ToInt32(ray.origin.X) * scale + 768;
+                    int x2 = Convert.ToInt32(intersect.intersectionPoint.X) * scale + 768;
+                    int y1 = -Convert.ToInt32(ray.origin.Z) * scale + 256;
+                    int y2 = -Convert.ToInt32(intersect.intersectionPoint.Z) * scale + 256;
+                    screen.Line(x1, y1, x2, y2, CreateColor(new Vector3(0, 1, 1)));
+                }
+
                 Vector3 N = 1 * new Vector3(intersect.intersectionPoint - intersect.MPvec).Normalized();
                 if (intersect.isMirror && recursion < 3)
                 {

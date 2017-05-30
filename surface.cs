@@ -129,8 +129,21 @@ namespace template
 				pixels[dest2 + x] = c;
 			}
 		}
+        // draw a circle
+        public void Circle(double r, int x, int y, int c)
+        {
+            int x1, x2, y1, y2;
+            for (int i = 0; i < 100; i++)
+            {
+                x1 = Convert.ToInt32(x + Math.Cos(0.36 * i) * r);
+                x2 = Convert.ToInt32(x + Math.Cos(0.36 * (i + 1)) * r);
+                y1 = Convert.ToInt32(y + Math.Sin(0.36 * i) * r);
+                y2 = Convert.ToInt32(y + Math.Sin(0.36 * (i + 1)) * r);
+                Line(x1, y1, x2, y2, c);
+            }
+        }
         // draw a solid bar
-		public void Bar( int x1, int y1, int x2, int y2, int c )
+        public void Bar( int x1, int y1, int x2, int y2, int c )
 		{
 			int dest = y1 * width;
 			for( int y = y1; y <= y2; y++, dest += width ) for( int x = x1; x <= x2; x++ )

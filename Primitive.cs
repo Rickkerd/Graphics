@@ -11,11 +11,11 @@ namespace template
     {
         public Vector3 color;
         public bool isMirror;
+        public Vector3 position;
+        public float r;
     }
     class Sphere:Primitive
     {
-        public Vector3 position;
-        public float r;
         public Intersection IntersectSphere(Ray ray)
         {
             Vector3 c = position - ray.origin;
